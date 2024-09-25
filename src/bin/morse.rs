@@ -2,6 +2,8 @@ use itertools::Itertools;
 use std::collections::HashMap;
 use std::io::Write;
 use std::iter::repeat;
+use std::ops::Deref;
+use std::process::exit;
 
 fn main() {
     let morse_rep = HashMap::from([
@@ -64,7 +66,15 @@ fn main() {
     let spaces = repeat(" ");
     let encoded: String = message
         .chars()
-        .map(|c| morse_rep[&c])
+        .map(|c| {
+            morse_rep
+                .get(&c)
+                .unwrap_or_else(|| {
+                    eprintln!("Error: Message contains an invalid character");
+                    exit(1);
+                })
+                .deref()
+        })
         .interleave_shortest(spaces)
         .collect();
     let encoded = encoded.trim();
