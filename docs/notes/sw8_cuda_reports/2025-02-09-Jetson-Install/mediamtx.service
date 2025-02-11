@@ -1,0 +1,12 @@
+[Service]
+ExecStart=%h/mediamtx/mediamtx %h/mediamtx/mediamtx.yml
+Restart=on-failure
+RestartSec=5
+
+[Unit]
+Wants=network.target
+Description=mediamtx
+
+[Install]
+WantedBy=default.target
+

@@ -2,7 +2,7 @@
 ## Testing CUDA on a fresh system
 ### Steps Taken
 - Use disk image from NVIDIA Jetson Nano developer kit: [image](https://developer.nvidia.com/jetson-nano-sd-card-image)
-- Upgrade the system: `apt upgrade` (Should not be neccesary)
+- Upgrade the system: `apt upgrade` (Should not be necessary)
 - Install alternate version of opencv (4.1.1 -> 4.12 or 4.11)
   - https://qengineering.eu/install-opencv-on-jetson-nano.html
   - https://github.com/Qengineering/Install-OpenCV-Jetson-Nano
