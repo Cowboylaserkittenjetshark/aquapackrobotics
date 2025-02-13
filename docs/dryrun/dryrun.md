@@ -8,7 +8,7 @@
 	1. If prompted about a "fingerprint" enter "yes"
 	2. Enter the password when prompted (ask other members if you don't know the password)
 	3. Once you've entered the password, you'll have a ssh session connected to the Jetson. You'll see a shell from the Jetson in your terminal now.
-![[ssh_login.png]]
+![](ssh_login.png)
 ## Verify everything is connected to the Jetson
 > [!IMPORTANT]
 > Run the following commands on the Jetson over the ssh connection.
@@ -24,7 +24,7 @@ You should see several devices. Make sure the following exist:
 - **2** "Digilent" devices (Acoustics FPGA, it's actually just one device, but shows up as two).
 
 Example output:
-![[ls_serial.png]]
+![](ls_serial.png)
 > [!NOTE]
 > The output will vary slightly (these names include serial numbers). Also, the control board may be either Adafruit or STMicroElectronics.
 
@@ -34,7 +34,7 @@ v4l2-ctl --list-devices
 ```
 
 You should see two devices labeled `FrontCam` and `BottomCam` (two different sections as shown below!):
-![[list_cams.png]]
+![](list_cams.png)
 ## Test Arm & Kill
 1. Arm the robot using the hardware arm switch The thrusters should not beep yet (if they do, software kill is either broken or disabled).
 2. Software arm the robot
