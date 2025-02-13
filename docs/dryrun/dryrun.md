@@ -8,6 +8,7 @@
 	1. If prompted about a "fingerprint" enter "yes"
 	2. Enter the password when prompted (ask other members if you don't know the password)
 	3. Once you've entered the password, you'll have a ssh session connected to the Jetson. You'll see a shell from the Jetson in your terminal now.
+
 ![](ssh_login.png)
 ## Verify everything is connected to the Jetson
 > [!IMPORTANT]
@@ -26,9 +27,12 @@ You should see several devices. Make sure the following exist:
 Example output:
 ![](ls_serial.png)
 > [!NOTE]
-> The output will vary slightly (these names include serial numbers). Also, the control board may be either Adafruit or STMicroElectronics.
+> The output will vary slightly:
+> - These names include serial numbers
+> - The control board may be either Adafruit or STMicroElectronics
+> - Acoustics may not be installed
 
-Then, make make sure cameras are connected:
+Then, make sure cameras are connected:
 ```bash
 v4l2-ctl --list-devices
 ```
@@ -36,6 +40,8 @@ v4l2-ctl --list-devices
 You should see two devices labeled `FrontCam` and `BottomCam` (two different sections as shown below!):
 ![](list_cams.png)
 ## Test Arm & Kill
+> [!IMPORTANT]
+> `arm.sh` has not worked for some time now and may no longer exist. You may skip steps 1-4
 1. Arm the robot using the hardware arm switch The thrusters should not beep yet (if they do, software kill is either broken or disabled).
 2. Software arm the robot
 	1. Run `./arm.sh`
@@ -117,7 +123,7 @@ cd ~/SW8E-MEB-Software/scripts/
 The MEB is used to communicate with MSB, thus remember the `PORT` you used in the previous section and use it again in the following commands.
 
 The general format of the commands you will run are as follows (do not run just yet):
-```sh
+```bash
 python3 msb_command.py PORT 57600 CMD
 ```
 
@@ -125,7 +131,7 @@ You will need to run this command multiple times, replacing `CMD` with something
 
 *You will need dropper makers loaded to observe correct behavior, but loading torpedoes is discouraged.*
 
-```sh
+```bash
 # Droppers should hold markers and torpedoes are in loaded position
 python3 msb_command.py PORT 57600 reset
 
@@ -178,7 +184,6 @@ To view with VLC:
 7. Close VLC
 8. Repeat to play `rtsp://192.168.2.5:8554/cam1`
 9. Wait until you see the stream
-10. 
 When done, run the following on the Jetson. Before running, press CTRL+C to kill the `startstreams.sh` script so you get a shell prompt again.
 ```bash
 systemctl --user stop mediamtx.service
