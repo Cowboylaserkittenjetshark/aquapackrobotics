@@ -93,7 +93,7 @@ If any of the following occur, fix them!
 The motor test should work off either battery on its own. If it is not, the LBB may not be working or one battery may not be working (check fuses, voltage on fischer, etc)
 ## MEB Communication & Voltage Monitor
 > [!NOTE]
-> This assumes the MEB scripts (https://github.com/ncsurobotics/SW8E-MEB-Software scripts folder) are located at `~/SW8E-MEB-Software/scripts/` on the Jetson
+> This assumes the [MEB scripts](https://github.com/ncsurobotics/SW8E-MEB-Software) scripts folder is located at `~/SW8E-MEB-Software/scripts/` on the Jetson
 
 Run the following command to determine what UART port MEB is:
 ```sh
@@ -113,7 +113,7 @@ If the wrong voltage is read, the voltage monitor is not working.
 If you get serial communication errors, MEB may not be communicating properly (or you may be using the wrong port).
 ## MSB
 > [!NOTE]
-> This assumes the MEB scripts (https://github.com/ncsurobotics/SW8E-MEB-Software scripts folder) are located at `~/SW8E-MEB-Software/scripts/` on the Jetson
+> This assumes the [MEB scripts](https://github.com/ncsurobotics/SW8E-MEB-Software) scripts folder is located at `~/SW8E-MEB-Software/scripts/` on the Jetson
 
 Run:
 ```sh
