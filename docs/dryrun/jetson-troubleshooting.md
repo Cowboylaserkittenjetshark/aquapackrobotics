@@ -15,7 +15,10 @@ When using the team laptop or another computer running [Linux](https://simple.wi
 1. Disconnect the robot from the computer
 2. If using an [ethernet](https://simple.wikipedia.org/wiki/Ethernet) [dongle](https://simple.wikipedia.org/wiki/Dongle), disconnect if from the computer
 3. Open a new terminal
-4. Run the command `ip a`
+4. Run the following command:
+   ```bash
+   ip a
+   ```
 
    You should see output that looks similar to the following. Comments (lines starting with "#") have been added for explanation.
    ```bash
@@ -64,7 +67,7 @@ When using the team laptop or another computer running [Linux](https://simple.wi
         inet6 fe80::5466:c9ff:fe8b:f92/64 scope link proto kernel_ll 
            valid_lft forever preferred_lft forever
      ```
-   * If you are connecting the robot to the computer using your computers built-in ethernet port, the "enp" interface from should now have "state UP" and have an "inet" line
+   * If you are connecting the robot to the computer using your computers built-in ethernet port, the "enp" interface from before should now have "state UP" and have an "inet" line
 8. If the interface is up (has "state UP") and is assigned an ip address (has "inet" line), continue to [SSH](#ssh). Otherwise, wait roughly 10 seconds and repeat step 7. If, after a few tries, you are still not assigned an ip address, continue to [Trouble Shooting IP Issues](#trouble-shooting-ip-issues)
 
 #### Windows
@@ -93,7 +96,10 @@ When using the team laptop or another computer running [Linux](https://simple.wi
 ### SSH
 The following instructions should apply to both Linux and Windows.
 
-1. Run the following command in a terminal: `ssh sw8@192.168.2.5`
+1. Run the following command in a terminal:
+   ```bash
+   ssh sw8@192.168.2.5
+   ```
 2. You should almost immediately be prompted about a fingerprint or for a password. If so, everything is fine and you should continue dryrunning.
 3. Otherwise, if you receive a connection refused error, the SSH server is likely still starting
    1. Wait at most two minutes
@@ -105,7 +111,10 @@ The following instructions should apply to both Linux and Windows.
    2. Wait at most 2 minutes
    3. Rerun`ssh sw8@192.168.2.5`
    4. If the problem persists, reboot the robot
-   5. If the problem persists even after rebooting, kill the ssh command and run `ping 192.168.2.5`
+   5. If the problem persists even after rebooting, kill the ssh command and run:
+      ```bash
+      ping 192.168.2.5
+      ```
    6. Let it run for about 5 seconds, then kill it (press Ctrl and C at the same time)
 
       This is just a diagnostic step, at this point you will likely need to ask a software team member regardless of the result.
