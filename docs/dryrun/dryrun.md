@@ -111,40 +111,7 @@ Run the following to determine what communication port MEB is on:
 export PORT=$(realpath /dev/serial/by-id/usb-Texas_Instruments_MSP_Tools_Driver_*-if02)
 echo $PORT
 ```
-This should output something like `/dev/ttyACM1`, where the 1 can be any number. If it does not, proceed to [Troubleshooting](#troubleshooting).
-
-### Troubleshooting
-First, double check that [everything is connected to the Jetson](#verify-everything-is-connected-to-the-jetson).
-
-If everything is actually connected, then MEB has a different name than what is expected. We need to determine this name and use it instead.
-
-> [!IMPORTANT]
-> You should inform the software team as soon as possible if the device name format has actually changed. This is unexpected and needs to be investigated.
-
-To determine the name, run the following command:
-```bash
-ls /dev/serial/by-id/ | grep -i Texas
-```
-
-This command lists files in the `/dev/serial/by-id/` folder that contain the word Texas (case insensitive) in their name. It should output 2 file names. If it does not output anything, then MEB is in fact not connected to the Jetson. The output should look similar to this:
-```bash
-/dev/serial/by-id/usb-Texas_Instruments_MSP_Tools_Driver_B20A826e14002300-if00	
-/dev/serial/by-id/usb-Texas_Instruments_MSP_Tools_Driver_B20A826e14002300-if02	
-```
-
-Now, we will take these resulting files names and determine which one is the correct one.
-
-Starting with the first file name, do the following:
-1. Run the following commands, replacing FILE_NAME with the file name we are testing:
-	```bash
-	export PORT=$(realpath FILE_NAME)
-	echo $PORT
-	```
-2. Begin following the steps in [MEB Communication & Voltage Monitor](#meb-communication--voltage-monitor)
-	 1. If you encounter no errors, you have selected the correct one and can continue
-	 2. If you encounter any errors, return here and start from step 1 using the second file name
-	 3. If you encounter errors with both file names, reboot the robot and try again
-	 4. If the issue persist, stop and ask for assistance.
+This should output something like `/dev/ttyACM1`, where the 1 can be any number. If it does not, see [MEB Troubleshooting](./meb-troubleshooting.md#port).
 
 ## MEB Communication & Voltage Monitor
 > [!NOTE]
@@ -171,17 +138,17 @@ If you get serial communication errors, MEB may not be communicating properly (o
 > [!NOTE]
 > This assumes the [MEB software](https://github.com/ncsurobotics/SW8E-MEB-Software) scripts folder is located at `~/SW8E-MEB-Software/scripts/` on the Jetson
 
+> [!IMPORTANT]
+> You will need dropper makers loaded to observe correct behavior, but loading torpedoes is discouraged
+
 Run:
 ```bash
 cd ~/SW8E-MEB-Software/scripts/
 ```
-
-The MEB is used to communicate with MSB, thus the `PORT` variable we exported in [Setting MEB Port](#setting-meb-port) is used in the following commands.
-
-*You will need dropper makers loaded to observe correct behavior, but loading torpedoes is discouraged.*
+The MEB is used to communicate with MSB, thus the `PORT` variable we exported in [Setting MEB Port](#setting-meb-port) is used in the following commands. You should be able to just copy and pase these commands.
 
 Run each of the following commands:
-1. Droppers should hold markers and torpedoes are in loaded position
+1. Reset (Droppers should hold markers and torpedoes are in loaded position)
 	 ```bash
 	 python3 msb_command.py $PORT 57600 reset
 	 ```
@@ -201,13 +168,13 @@ Run each of the following commands:
    ```bash
    python3 msb_command.py $PORT 57600 t2_trig
    ```
-6. Droppers hold markers and torpedoes return to loaded position again
+6. Reset (Droppers hold markers and torpedoes return to loaded position again)
    ```bash
    python3 msb_command.py $PORT 57600 reset
    ```
 
 ## Acoustics System
-> [!NOTE] TODO
+> [!TODO]
 > This will be written once there is a stable test interface for acoustics. For now, refer to the acoustics project people and have them test what they want.
 
 ## Camera Stream Test
