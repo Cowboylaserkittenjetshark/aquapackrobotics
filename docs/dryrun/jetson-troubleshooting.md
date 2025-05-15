@@ -2,6 +2,7 @@
 ## Checking Connection
 > [!IMPORTANT]
 > Most connection problems can be resolved by waiting for a few minutes and retrying.
+>
 > However, you should never have to wait longer than 3 minutes. If you do, continue to the troubleshooting steps below.
 
 To establish an [SSH connection](https://simple.wikipedia.org/wiki/Secure_Shell) to the Jetson, two important things must happen:
@@ -69,6 +70,7 @@ When using the team laptop or another computer running [Linux](https://simple.wi
 #### Windows
 > [!WARNING]
 > The team laptop is known to work, unless you know what you are doing, please use it instead
+>
 > The following steps have not been tested
 
 1. Disconnect the robot from the computer
@@ -96,16 +98,19 @@ The following instructions should apply to both Linux and Windows.
 3. Otherwise, if you receive a connection refused error, the SSH server is likely still starting
    1. Wait at most two minutes
    2. Rerun `ssh sw8@192.168.2.5`
-   3. If the error persists after waiting and rerunning, reboot the robot
+   3. If the error persists, reboot the robot
    4. If the error persists even after rebooting, ask a software team member
 4. Otherwise, if the command hangs with no output:
    1. Kill the ssh command if running (press Ctrl and C at the same time)
    2. Wait at most 2 minutes
    3. Rerun`ssh sw8@192.168.2.5`
-   4. If the problem persists, kill the ssh command and run `ping 192.168.2.5`
-   3. Let it run for about 5 seconds, then kill it (press Ctrl and C at the same time)
+   4. If the problem persists, reboot the robot
+   5. If the problem persists even after rebooting, kill the ssh command and run `ping 192.168.2.5`
+   6. Let it run for about 5 seconds, then kill it (press Ctrl and C at the same time)
 
-      The output should look like the following if the Jetson is up
+      This is just a diagnostic step, at this point you will likely need to ask a software team member regardless of the result.
+
+      The output should look like the following if the Jetson is up:
       ```bash
       PING 192.168.2.5 (192.168.2.5) 56(84) bytes of data.
       64 bytes from 192.168.2.5: icmp_seq=1 ttl=57 time=48.3 ms
@@ -119,6 +124,7 @@ The following instructions should apply to both Linux and Windows.
       6 packets transmitted, 6 received, 0% packet loss, time 5010ms
       rtt min/avg/max/mdev = 48.338/71.487/148.450/35.342 ms.5: icmp_seq=6 ttl=57 time=48.5 ms
       ```
+      This means that you can communicate with the Jetson, but that SSH server is misbehaving.
       
       If the Jetson is unreachable or not responding, it should look like this:
       ```bash
@@ -127,3 +133,4 @@ The following instructions should apply to both Linux and Windows.
       --- 192.168.2.5 ping statistics ---
       18 packets transmitted, 0 received, 100% packet loss, time 17406ms
       ```
+      Are you sure you that you actually got an ip address assigned by the Jetson in [1. Checking IP](#1-checking-ip)?
