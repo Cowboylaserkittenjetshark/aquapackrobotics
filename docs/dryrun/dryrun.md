@@ -8,8 +8,11 @@
 1. Connect BOTH batteries to the robot (**this is important!** LBB is known to misbehave a little if the robot is powered on with only one battery present!)
 2. Power the robot on using the system switch
 3. Connect the tether to the end cap and the other end to your computer
-4. Wait up to 2 minutes for your computer to connect to the Jetson by ethernet. Once connected, continue. Otherwise, see [Jetson Troubleshooting](./jetson-troubleshooting.md#checking-connection)
-5. SSH into the Jetson by running the following command in a terminal (works on windows too): `ssh sw8@192.168.2.5`
+4. Wait up to 2 minutes for your computer to connect to the Jetson by ethernet. Once connected, continue. Otherwise, see [Jetson Troubleshooting](./jetson-troubleshooting.md#checking-connection).
+5. SSH into the Jetson by running the following command in a terminal (works on windows too):
+	 ```bash
+	 ssh sw8@192.168.2.5
+	 ```
 	 1. If prompted about a "fingerprint" enter "yes"
 	 2. Enter the password when prompted (ask other members if you don't know the password)
 	 3. Once you've entered the password, you'll have a ssh session connected to the Jetson. You'll see a shell from the Jetson in your terminal now.
@@ -19,7 +22,7 @@
 > [!IMPORTANT]
 > Run the following commands on the Jetson over the ssh connection.
 
-First make sure all necessary UART devices are present:
+First make sure all necessary devices are present:
 ```bash
 ls /dev/serial/by-id/
 ```
@@ -69,14 +72,16 @@ You should see two devices labeled `FrontCam` and `BottomCam` (two different sec
 > cd ~
 > ```
 
-Run the following commands. The second command  is a script that will prompt for dry run settings (speed and duration)
-- Just press enter twice for default settings
-- Then, type each thruster number followed by enter and make sure that the thruster moves
-- After testing all thrusters, type "q" and press enter to exit.
-```sh
+Run the following commands:
+```bash
 cd ~/AUVControlBoard/iface
 ./launch.py example/motor_test.py
 ```
+The second command  is a script that will prompt for dry run settings (speed and duration):
+1. When prompted for speed, press enter to use the default setting
+2. When prompted for duration, press enter to use the default setting
+3. Then, type each thruster number followed by enter and make sure that the thruster moves
+4. After testing all thrusters, type "q" and press enter to exit.
 
 > [!NOTE]
 > If you get error 255 from the control board scripts, this indicates a timeout occurred. This is likely not a communication error with the control board. Just re-run the script and try again. It should work.
@@ -99,12 +104,44 @@ If any of the following occur, fix them!
 The motor test should work off either battery on its own. If it is not, the LBB may not be working or one battery may not be working (check fuses, voltage on fischer, etc)
 
 ## Setting MEB Port
-Run the following to determine what UART port MEB is:
+Run the following to determine what communication port MEB is on:
 ```bash
-export PORT=$(realpath /dev/serial/by-id/Texas_Instruments_MSP_Tools_Driver_*-if02)
+export PORT=$(realpath /dev/serial/by-id/usb-Texas_Instruments_MSP_Tools_Driver_*-if02)
 echo $PORT
 ```
-This should output something like `/dev/ttyACM1`, where the 1 can be any number. If it does not, double check that [everything is connected to the Jetson](#verify-everything-is-connected-to-the-jetson)
+This should output something like `/dev/ttyACM1`, where the 1 can be any number. If it does not, proceed to [#troubleshooting].
+### Troubleshooting
+First, double check that [everything is connected to the Jetson](#verify-everything-is-connected-to-the-jetson).
+
+If everything is actually connected, then MEB has a different name than what is expected. We need to determine this name and use it instead.
+
+> [!IMPORTANT]
+> You should inform the software team as soon as possible if the device name format has actually changed. This is unexpected and needs to be investigated.
+
+To determine the name, run the following command:
+```bash
+ls /dev/serial/by-id/ | grep -i Texas
+```
+
+This command lists files in the `/dev/serial/by-id/` folder that contain the word Texas (case insensitive) in their name. It should output 2 file names. If it does not output anything, then MEB is in fact not connected to the Jetson. The output should look similar to this:
+```bash
+/dev/serial/by-id/usb-Texas_Instruments_MSP_Tools_Driver_B20A826e14002300-if00	
+/dev/serial/by-id/usb-Texas_Instruments_MSP_Tools_Driver_B20A826e14002300-if02	
+```
+
+Now, we will take these resulting files names and determine which one is the correct one.
+
+Starting with the first file name, do the following:
+1. Run the following commands, replacing FILE_NAME with the file name we are testing:
+	```bash
+	export PORT=$(realpath FILE_NAME)
+	echo $PORT
+	```
+2. Begin following the steps in [MEB Communication & Voltage Monitor](#meb-communication--voltage-monitor)
+	 1. If you encounter no errors, you have selected the correct
+	 2. If you encounter any errors, return here and start from step 1 using the second file name
+	 3. If you encounter errors with both file names, reboot the robot and try again
+	 4. If the issue persist, stop ask for assistance.
 
 ## MEB Communication & Voltage Monitor
 > [!NOTE]
@@ -127,10 +164,9 @@ If you get serial communication errors, MEB may not be communicating properly (o
 > This assumes the [MEB software](https://github.com/ncsurobotics/SW8E-MEB-Software) scripts folder is located at `~/SW8E-MEB-Software/scripts/` on the Jetson
 
 Run:
-```sh
+```bash
 cd ~/SW8E-MEB-Software/scripts/
 ```
-
 
 The MEB is used to communicate with MSB, thus the `PORT` variable we exported in [Setting MEB Port](#setting-meb-port) is used in the following commands.
 
