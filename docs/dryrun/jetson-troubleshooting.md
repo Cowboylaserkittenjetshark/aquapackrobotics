@@ -100,7 +100,7 @@ The following instructions should apply to both Linux and Windows.
    2. Rerun `ssh sw8@192.168.2.5`
    3. If the error persists, reboot the robot
    4. If the error persists even after rebooting, ask a software team member
-4. Otherwise, if the command hangs with no output:
+4. Otherwise, if the command hangs with no output or you receive a connection timed out error:
    1. Kill the ssh command if running (press Ctrl and C at the same time)
    2. Wait at most 2 minutes
    3. Rerun`ssh sw8@192.168.2.5`
