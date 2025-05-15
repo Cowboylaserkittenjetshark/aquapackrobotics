@@ -1,9 +1,13 @@
 # SeaWolf 8 Dryrun Procedures
+> [!WARNING] 
+> Unless you know what you are doing, please use the team laptop instead of your personal device
+> It is known to work and most troubleshooting instructions assume that you are using
+
 ## Connect to the system
 1. Connect BOTH batteries to the robot (**this is important!** LBB is known to misbehave a little if the robot is powered on with only one battery present!)
 2. Power the robot on using the system switch
 3. Connect the tether to the end cap and the other end to your computer
-4. Wait up to 2 minutes for your computer to connect to the Jetson by ethernet. Once connected, continue. Otherwise, see [Jetson Troubleshooting](./jetson-troubleshooting.md#SSH)
+4. Wait up to 2 minutes for your computer to connect to the Jetson by ethernet. Once connected, continue. Otherwise, see [Jetson Troubleshooting](./jetson-troubleshooting.md)
 5. SSH into the Jetson by running the following command in a terminal (works on windows too): `ssh sw8@192.168.2.5`
 	1. If prompted about a "fingerprint" enter "yes"
 	2. Enter the password when prompted (ask other members if you don't know the password)
