@@ -18,6 +18,7 @@
 	 3. Once you've entered the password, you'll have a ssh session connected to the Jetson. You'll see a shell from the Jetson in your terminal now.
 
 ![](ssh_login.png)
+
 ## Verify everything is connected to the Jetson
 > [!IMPORTANT]
 > Run the following commands on the Jetson over the ssh connection.
@@ -47,6 +48,7 @@ v4l2-ctl --list-devices
 
 You should see two devices labeled `FrontCam` and `BottomCam` (two different sections as shown below!):
 ![](list_cams.png)
+
 ## Test Arm & Kill
 1. Arm the robot using the hardware switch
 2. The thrusters should beep 5 times
@@ -109,7 +111,8 @@ Run the following to determine what communication port MEB is on:
 export PORT=$(realpath /dev/serial/by-id/usb-Texas_Instruments_MSP_Tools_Driver_*-if02)
 echo $PORT
 ```
-This should output something like `/dev/ttyACM1`, where the 1 can be any number. If it does not, proceed to [#troubleshooting].
+This should output something like `/dev/ttyACM1`, where the 1 can be any number. If it does not, proceed to [Troubleshooting](#troubleshooting).
+
 ### Troubleshooting
 First, double check that [everything is connected to the Jetson](#verify-everything-is-connected-to-the-jetson).
 
@@ -138,27 +141,32 @@ Starting with the first file name, do the following:
 	echo $PORT
 	```
 2. Begin following the steps in [MEB Communication & Voltage Monitor](#meb-communication--voltage-monitor)
-	 1. If you encounter no errors, you have selected the correct
+	 1. If you encounter no errors, you have selected the correct one and can continue
 	 2. If you encounter any errors, return here and start from step 1 using the second file name
 	 3. If you encounter errors with both file names, reboot the robot and try again
-	 4. If the issue persist, stop ask for assistance.
+	 4. If the issue persist, stop and ask for assistance.
 
 ## MEB Communication & Voltage Monitor
 > [!NOTE]
 > This assumes the [MEB software](https://github.com/ncsurobotics/SW8E-MEB-Software) scripts folder is located at `~/SW8E-MEB-Software/scripts/` on the Jetson
 
 Run the following command (the `PORT` variable we exported in [Setting MEB Port](#setting-meb-port) is used):
-
-```
+```bash
 cd ~/SW8E-MEB-Software/scripts/
 python3 read_sys_voltage.py $PORT 57600
 ```
+
+> [!NOTE]
+> The voltage monitor is currently not calibrated, so do not worry about ensuring that the correct battery voltage is being read.
+>
+> You should still complete this step to test communications with MEB.
 
 Make sure correct battery voltage is being read. Hold CTRL and press C (CTRL+C) to exit the program.
 
 If the wrong voltage is read, the voltage monitor is not working.
 
 If you get serial communication errors, MEB may not be communicating properly (or you may be using the wrong port).
+
 ## MSB
 > [!NOTE]
 > This assumes the [MEB software](https://github.com/ncsurobotics/SW8E-MEB-Software) scripts folder is located at `~/SW8E-MEB-Software/scripts/` on the Jetson
@@ -170,45 +178,34 @@ cd ~/SW8E-MEB-Software/scripts/
 
 The MEB is used to communicate with MSB, thus the `PORT` variable we exported in [Setting MEB Port](#setting-meb-port) is used in the following commands.
 
-The general format of the commands you will run are as follows (**do not run just yet**):
-```bash
-# Don't actually run this
-python3 msb_command.py $PORT 57600 CMD
-```
-
-You will need to run this command multiple times, replacing `CMD` with something different.
-
 *You will need dropper makers loaded to observe correct behavior, but loading torpedoes is discouraged.*
 
-```bash
-# Droppers should hold markers and torpedoes are in loaded position
-python3 msb_command.py $PORT 57600 reset
-```
+Run each of the following commands:
+1. Droppers should hold markers and torpedoes are in loaded position
+	 ```bash
+	 python3 msb_command.py $PORT 57600 reset
+	 ```
+2. Drop marker 1
+   ```bash
+   python3 msb_command.py $PORT 57600 d1_trig
+   ```
+3. Drop marker 2
+   ```bash
+   python3 msb_command.py $PORT 57600 d2_trig
+   ```
+4. Fire torpedo 1
+   ```bash
+   python3 msb_command.py $PORT 57600 t1_trig
+   ```
+5. Fire torpedo 2
+   ```bash
+   python3 msb_command.py $PORT 57600 t2_trig
+   ```
+6. Droppers hold markers and torpedoes return to loaded position again
+   ```bash
+   python3 msb_command.py $PORT 57600 reset
+   ```
 
-```bash
-# Drop marker 1
-python3 msb_command.py $PORT 57600 d1_trig
-```
-
-```bash
-# Drop marker 2
-python3 msb_command.py $PORT 57600 d2_trig
-```
-
-```bash
-# Fire torpedo 1
-python3 msb_command.py $PORT 57600 t1_trig
-```
-
-```bash
-# Fire torpedo 2
-python3 msb_command.py $PORT 57600 t2_trig
-```
-
-```bash
-# Droppers hold markers and torpedoes return to loaded position again
-python3 msb_command.py $PORT 57600 reset
-```
 ## Acoustics System
 > [!NOTE] TODO
 > This will be written once there is a stable test interface for acoustics. For now, refer to the acoustics project people and have them test what they want.
